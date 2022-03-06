@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.exception.AccountNotFoundException;
 import com.revature.model.Account;
 import com.revature.service.AccountService;
 import io.javalin.Javalin;
@@ -63,8 +64,24 @@ public class AccountController implements Controller {
         }
     };
 
+    private Handler getAccountById = (ctx) -> {
+        int id = Integer.parseInt(ctx.pathParam("id"));
+
+        try {
+            Account account = accountService.getAccountById(id);
+            ctx.json(account);
+        } catch (AccountNotFoundException e) {
+            ctx.json(e.getMessage());
+            ctx.status(404);
+        } catch (IllegalArgumentException e) {
+            ctx.json(e.getMessage());
+            ctx.status(400);
+        }
+    };
+
     @Override
     public void mapEndpoints(Javalin app) {
         app.get("/clients/{client_id}/accounts", getAllAccountsByClientId);
+        app.get("/clients/{client_id}/accounts/{id}", getAccountById);
     }
 }

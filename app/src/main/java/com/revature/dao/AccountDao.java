@@ -44,7 +44,7 @@ public class AccountDao {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                String type = rs.getString("type");
+                String type = rs.getString("typeOfAccount");
                 double balance = rs.getDouble("balance");
                 int clientId = rs.getInt("client_id");
 
