@@ -25,16 +25,8 @@ public class ClientController  implements Controller {
     private Handler getClientById = (ctx) -> {
         String id = ctx.pathParam("id");
 
-        try {
-            Client client = clientService.getClientById(id);
-            ctx.json(client);
-        } catch (ClientNotFoundException e) {
-            ctx.json(e.getMessage());
-            ctx.status(404);
-        } catch (IllegalArgumentException e) {
-            ctx.json(e.getMessage());
-            ctx.status(400);
-        }
+        Client client = clientService.getClientById(id);
+        ctx.json(client);
 
     };
 

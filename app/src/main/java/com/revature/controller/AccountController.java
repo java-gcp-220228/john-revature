@@ -68,19 +68,9 @@ public class AccountController implements Controller {
     private Handler getAccountById = (ctx) -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
-        try {
-            Account account = accountService.getAccountById(id, client_id);
-            ctx.json(account);
-        } catch (AccountNotFoundException e) {
-            ctx.json(e.getMessage());
-            ctx.status(404);
-        } catch (WrongAccountException e) {
-            ctx.json(e.getMessage());
-            ctx.status(403);
-        } catch (IllegalArgumentException e) {
-            ctx.json(e.getMessage());
-            ctx.status(400);
-        }
+
+        Account account = accountService.getAccountById(id, client_id);
+        ctx.json(account);
     };
 
     @Override
