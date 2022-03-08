@@ -3,14 +3,29 @@ package com.revature.dao;
 import com.revature.model.Client;
 import com.revature.utility.ConnectionUtility;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDao {
+
+    public Client addClient(Client client) throws SQLException {
+        try (Connection con = ConnectionUtility.getConnection()) {
+            String query = "INSERT INTO clients (first_name, last_name, age) VALUES (?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setString(1, client.getFirstName());
+            pstmt.setString(2, client.getLastName());
+            pstmt.setInt(3, client.getAge());
+
+            pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            return new Client(id, client.getFirstName(), client.getLastName(), client.getAge());
+        }
+    }
 
     public Client getClientById(int id) throws SQLException {
         try (Connection con = ConnectionUtility.getConnection()) {
