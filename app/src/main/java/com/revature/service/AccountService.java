@@ -13,6 +13,10 @@ public class AccountService {
 
     public AccountService() { this.accountDao = new AccountDao();}
 
+    public AccountService(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
     public List<Account> getAllAccountByClientId(int clientId) throws SQLException {
         return this.accountDao.getAllAccountsFromClientId(clientId);
     }

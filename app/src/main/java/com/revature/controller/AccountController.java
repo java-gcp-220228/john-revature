@@ -1,7 +1,5 @@
 package com.revature.controller;
 
-import com.revature.exception.AccountNotFoundException;
-import com.revature.exception.WrongAccountException;
 import com.revature.model.Account;
 import com.revature.service.AccountService;
 import io.javalin.Javalin;
