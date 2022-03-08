@@ -14,9 +14,9 @@ public class ConnectionUtility {
 
         DriverManager.registerDriver(new Driver());
 
-        String url = "jdbc:postgresql://localhost:5433/postgres";
-        String username = "postgres";
-        String password = "1718";
+        String url = System.getenv("POSTGRES_URL");
+        String username = System.getenv("POSTGRES_USER");
+        String password = System.getenv("POSTGRES_PASSWORD");
 
         Connection connection = DriverManager.getConnection(url, username, password);
 
