@@ -14,6 +14,11 @@ public class ClientService {
     public ClientService() {
         this.clientDao = new ClientDao();
     }
+
+    public ClientService(ClientDao clientDao) {
+        this.clientDao = clientDao;
+    }
+
     public List<Client> getAllClients() throws SQLException {
         return this.clientDao.getAllClients();
     }

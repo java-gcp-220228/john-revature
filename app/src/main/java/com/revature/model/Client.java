@@ -64,12 +64,21 @@ public class Client {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
         Client client = (Client) object;
         return id == client.id && age == client.age && java.util.Objects.equals(firstName, client.firstName) && java.util.Objects.equals(lastName, client.lastName);
     }
 
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, firstName, lastName, age);
+        return Objects.hash( id, firstName, lastName, age);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

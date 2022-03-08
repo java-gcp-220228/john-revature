@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import com.revature.exception.ClientNotFoundException;
+
 import com.revature.model.Client;
 import com.revature.service.ClientService;
 import io.javalin.Javalin;
