@@ -69,4 +69,23 @@ public class ClientDao {
         }
         return clients;
     }
+
+    public Client updateClient(Client client) throws SQLException {
+        try(Connection con = ConnectionUtility.getConnection()) {
+            String query = "UPDATE clients " +
+                    "SET first_name = ?, " +
+                    "last_name = ?, " +
+                    "age = ? " +
+                    "WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setString(1, client.getFirstName());
+            pstmt.setString(2, client.getLastName());
+            pstmt.setInt(3, client.getAge());
+            pstmt.setInt(4, client.getId());
+
+            pstmt.executeUpdate();
+        }
+        return client;
+    }
 }

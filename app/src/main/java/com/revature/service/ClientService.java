@@ -42,4 +42,15 @@ public class ClientService {
 
         }
     }
+
+    public Client updateClient(String id, Client client) throws ClientNotFoundException, SQLException {
+        try {
+            getClientById(id);
+        } catch (ClientNotFoundException e) {
+            throw new ClientNotFoundException("Update attempt on client that does not exist: " + e.getMessage());
+        }
+        client.setId(Integer.parseInt(id));
+        Client updatedClient = clientDao.updateClient(client);
+        return updatedClient;
+    }
 }
