@@ -1,6 +1,5 @@
 plugins {
 //    id 'de.clashsoft.angular-gradle' version '0.1.7'
-    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id 'java'
     id 'application'
 }
@@ -14,11 +13,11 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation 'io.javalin:javalin:4.3.0'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'org.postgresql:postgresql:42.3.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'ch.qos.logback:logback-core:1.2.11'
     testImplementation 'org.mockito:mockito-core:4.3.1'
     testImplementation 'io.javalin:javalin-testtools:4.3.0'
     testImplementation 'org.assertj:assertj-core:3.11.1'
