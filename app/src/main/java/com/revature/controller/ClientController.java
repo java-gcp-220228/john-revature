@@ -19,7 +19,7 @@ public class ClientController  implements Controller {
 
     private final Handler getAllClients = (ctx) -> {
         List<Client> clients = clientService.getAllClients();
-
+        ctx.status(200);
         ctx.json(clients);
     };
 
