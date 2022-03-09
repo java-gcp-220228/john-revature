@@ -53,4 +53,18 @@ public class ClientService {
         Client updatedClient = clientDao.updateClient(client);
         return updatedClient;
     }
+
+    public boolean deleteClient(String id) throws SQLException {
+        boolean success;
+        try {
+            int intId = Integer.parseInt(id);
+
+            success = this.clientDao.deleteClientById(intId);
+
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("A value that was not corresponding to a valid integer was provided");
+
+        }
+        return success;
+    }
 }

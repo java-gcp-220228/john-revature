@@ -71,7 +71,7 @@ public class ClientDao {
     }
 
     public Client updateClient(Client client) throws SQLException {
-        try(Connection con = ConnectionUtility.getConnection()) {
+        try (Connection con = ConnectionUtility.getConnection()) {
             String query = "UPDATE clients " +
                     "SET first_name = ?, " +
                     "last_name = ?, " +
@@ -87,5 +87,22 @@ public class ClientDao {
             pstmt.executeUpdate();
         }
         return client;
+    }
+
+    public boolean deleteClientById(int id) throws SQLException {
+        try (Connection con = ConnectionUtility.getConnection()) {
+            String query = "DELETE FROM clients WHERE id = ?";
+
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setInt(1, id);
+
+            int numberOfRecordsDeleted = pstmt.executeUpdate();
+
+            if (numberOfRecordsDeleted == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

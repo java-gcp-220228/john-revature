@@ -47,6 +47,18 @@ public class ClientController  implements Controller {
         ctx.json(updatedClient);
     };
 
+    private final Handler deleteClient = (ctx) -> {
+        String id = ctx.pathParam("id");
+
+        if(clientService.deleteClient(id)) {
+            ctx.status(200);
+            ctx.json("Client with id: " + id + " deleted");
+        }else {
+            ctx.status(400);
+            ctx.json("Unable to perform delete operation");
+        }
+    };
+
     public Client sanitize(Context ctx) {
         BodyValidator<Client> body = ctx.bodyValidator(Client.class);
         return body.check(client -> client.getAge() > 0, "Client must have a positive age")
@@ -61,5 +73,6 @@ public class ClientController  implements Controller {
         app.get("/clients/{id}", getClientById);
         app.post("/clients", postNewClient);
         app.put("/clients/{id}", putNewClientDetails);
+        app.delete("/clients/{id}", deleteClient);
     }
 }
