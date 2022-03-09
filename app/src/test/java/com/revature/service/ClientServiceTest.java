@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +24,16 @@ public class ClientServiceTest {
     void setup() {
         mockDao = mock(ClientDao.class);
         clientService = new ClientService(mockDao);
+    }
+
+    @Test
+    public void testAddClient() throws SQLException {
+        Client mockClient = new Client(10, "Tom", "Brown", 56);
+        when(mockDao.addClient(any())).thenReturn(mockClient);
+        Client actual = clientService.addClient(new Client(0, "Tom", "Brown",56));
+        Assertions.assertEquals(actual.getFirstName(), mockClient.getFirstName());
+        Assertions.assertEquals(actual.getLastName(), mockClient.getLastName());
+        Assertions.assertEquals(actual.getAge(), mockClient.getAge());
     }
 
     @Test

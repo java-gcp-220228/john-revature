@@ -4,6 +4,7 @@ package com.revature.controller;
 import com.revature.model.Client;
 import com.revature.service.ClientService;
 import io.javalin.Javalin;
+import io.javalin.core.validation.BodyValidator;
 import io.javalin.http.Handler;
 
 import java.util.List;
@@ -31,7 +32,11 @@ public class ClientController  implements Controller {
     };
 
     private Handler postNewClient = (ctx) -> {
-        Client new_client = ctx.bodyAsClass(Client.class);
+        BodyValidator<Client> body = ctx.bodyValidator(Client.class);
+        Client new_client = body.check(client -> client.getAge() >= 18, "Client must be at least 18 years old")
+                .check(client -> client.getFirstName() != null, "Client must have a first name")
+                .check(client -> client.getLastName() != null, "Client must have a last name")
+                .get();
         Client client = clientService.addClient(new_client);
         ctx.json(client);
     };
