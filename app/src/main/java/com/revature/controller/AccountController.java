@@ -23,9 +23,9 @@ public class AccountController implements Controller {
             List<Account> toRemove = new ArrayList<>();
             boolean errorFlag = false;
             String errorMsg = "";
-            Double lessThan = ctx.queryParamAsClass("amountLessThan", Double.class).get();
-            Double greaterThan = ctx.queryParamAsClass("amountGreaterThan", Double.class).get();
             if (map.containsKey("amountLessThan") && map.containsKey("amountGreaterThan")) {
+                Double lessThan = ctx.queryParamAsClass("amountLessThan", Double.class).get();
+                Double greaterThan = ctx.queryParamAsClass("amountGreaterThan", Double.class).get();
                 if(lessThan.compareTo(greaterThan) > 0) {
                     for (Account account : accounts) {
                         double balance = account.getBalance();
@@ -36,12 +36,14 @@ public class AccountController implements Controller {
                         errorMsg = "Invalid range";
                 }
             } else if (map.containsKey("amountLessThan")) {
+                Double lessThan = ctx.queryParamAsClass("amountLessThan", Double.class).get();
                 for (Account account : accounts) {
                     double balance = account.getBalance();
                     if (balance > lessThan) toRemove.add(account);
                 }
 
             } else if (map.containsKey("amountGreaterThan")) {
+                Double greaterThan = ctx.queryParamAsClass("amountGreaterThan", Double.class).get();
                 for (Account account : accounts) {
                     double balance = account.getBalance();
                     if (balance < greaterThan) toRemove.add(account);
