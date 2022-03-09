@@ -13,7 +13,7 @@ public class AccountController implements Controller {
     private AccountService accountService;
 
     public AccountController() { this.accountService = new AccountService();}
-    private Handler getAllAccountsByClientId = (ctx) -> {
+    private final Handler getAllAccountsByClientId = (ctx) -> {
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
         List<Account> accounts = accountService.getAllAccountByClientId(client_id);
         if (accounts==null) {
@@ -23,9 +23,9 @@ public class AccountController implements Controller {
             List<Account> toRemove = new ArrayList<>();
             boolean errorFlag = false;
             String errorMsg = "";
+            Double lessThan = ctx.queryParamAsClass("amountLessThan", Double.class).get();
+            Double greaterThan = ctx.queryParamAsClass("amountGreaterThan", Double.class).get();
             if (map.containsKey("amountLessThan") && map.containsKey("amountGreaterThan")) {
-                Double lessThan = Double.parseDouble(ctx.queryParam("amountLessThan"));
-                Double greaterThan = Double.parseDouble(ctx.queryParam("amountGreaterThan"));
                 if(lessThan.compareTo(greaterThan) > 0) {
                     for (Account account : accounts) {
                         double balance = account.getBalance();
@@ -36,14 +36,12 @@ public class AccountController implements Controller {
                         errorMsg = "Invalid range";
                 }
             } else if (map.containsKey("amountLessThan")) {
-                Double lessThan = Double.parseDouble(ctx.queryParam("amountLessThan"));
                 for (Account account : accounts) {
                     double balance = account.getBalance();
                     if (balance > lessThan) toRemove.add(account);
                 }
 
             } else if (map.containsKey("amountGreaterThan")) {
-                Double greaterThan = Double.parseDouble(ctx.queryParam("amountGreaterThan"));
                 for (Account account : accounts) {
                     double balance = account.getBalance();
                     if (balance < greaterThan) toRemove.add(account);
@@ -63,7 +61,7 @@ public class AccountController implements Controller {
         }
     };
 
-    private Handler getAccountById = (ctx) -> {
+    private final Handler getAccountById = (ctx) -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
 

@@ -17,13 +17,13 @@ public class ClientController  implements Controller {
         this.clientService = new ClientService();
     }
 
-    private Handler getAllClients = (ctx) -> {
+    private final Handler getAllClients = (ctx) -> {
         List<Client> clients = clientService.getAllClients();
 
         ctx.json(clients);
     };
 
-    private Handler getClientById = (ctx) -> {
+    private final Handler getClientById = (ctx) -> {
         String id = ctx.pathParam("id");
 
         Client client = clientService.getClientById(id);
@@ -31,7 +31,7 @@ public class ClientController  implements Controller {
 
     };
 
-    private Handler postNewClient = (ctx) -> {
+    private final Handler postNewClient = (ctx) -> {
         BodyValidator<Client> body = ctx.bodyValidator(Client.class);
         Client new_client = body.check(client -> client.getAge() >= 18, "Client must be at least 18 years old")
                 .check(client -> client.getFirstName() != null, "Client must have a first name")
