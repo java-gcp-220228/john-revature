@@ -8,17 +8,17 @@ import io.javalin.http.ExceptionHandler;
 
 public class ExceptionController implements Controller {
 
-    private ExceptionHandler notFound = (e, ctx) -> {
+    private final ExceptionHandler notFound = (e, ctx) -> {
         ctx.status(404);
         ctx.json(e.getMessage());
     };
 
-    private ExceptionHandler wrongAccount = (e, ctx) -> {
+    private final ExceptionHandler wrongAccount = (e, ctx) -> {
         ctx.status(403);
         ctx.json(e.getMessage());
     };
 
-    private ExceptionHandler illegalArgument = (e, ctx) -> {
+    private final ExceptionHandler illegalArgument = (e, ctx) -> {
         ctx.status(400);
         ctx.json(e.getMessage());
     };
