@@ -35,4 +35,9 @@ public class AccountService {
             throw  new IllegalArgumentException("A value that was not corresponding to a valid integer was provided");
         }
     }
+
+    public Account createAccount(Account newAccount) throws SQLException {
+        return this.accountDao.createNewAccountForClientId(newAccount);
+    }
+
 }

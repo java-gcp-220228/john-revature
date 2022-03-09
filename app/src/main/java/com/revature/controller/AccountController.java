@@ -3,6 +3,9 @@ package com.revature.controller;
 import com.revature.model.Account;
 import com.revature.service.AccountService;
 import io.javalin.Javalin;
+import io.javalin.core.validation.BodyValidator;
+import io.javalin.http.BadRequestResponse;
+import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
 import java.util.ArrayList;
@@ -71,9 +74,29 @@ public class AccountController implements Controller {
         ctx.json(account);
     };
 
+    private final Handler createNewAccount = (ctx) -> {
+        Account newAccount = sanitize(ctx);
+        int client_id = Integer.parseInt(ctx.pathParam("client_id"));
+        if (newAccount.getClientId() == client_id) {
+            Account createdAccount = accountService.createAccount(newAccount);
+            ctx.status(201);
+            ctx.json(createdAccount);
+        } else {
+            throw new BadRequestResponse();
+        }
+    };
+
+    public Account sanitize(Context ctx) {
+        BodyValidator<Account> body = ctx.bodyValidator(Account.class);
+        return body.check(account -> Account.types.contains(Account.AccountType.valueOf(account.getType())), "Invalid account type")
+                .check(account -> account.getClientId() > 0, "Invalid Client ID")
+                .get();
+    }
+
     @Override
     public void mapEndpoints(Javalin app) {
         app.get("/clients/{client_id}/accounts", getAllAccountsByClientId);
         app.get("/clients/{client_id}/accounts/{id}", getAccountById);
+        app.post("/clients/{client_id}/accounts", createNewAccount);
     }
 }

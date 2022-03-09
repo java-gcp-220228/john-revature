@@ -1,5 +1,6 @@
 package com.revature.model;
 
+import java.util.EnumSet;
 import java.util.Objects;
 
 public class Account {
@@ -7,6 +8,7 @@ public class Account {
         CHEQUING,
         SAVINGS;
     }
+    public static EnumSet<AccountType> types = EnumSet.allOf(AccountType.class);
     private int id;
     private String type;
     private double balance;

@@ -3,10 +3,7 @@ package com.revature.dao;
 import com.revature.model.Account;
 import com.revature.utility.ConnectionUtility;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +49,23 @@ public class AccountDao {
             }
         }
         return null;
+    }
+
+    public Account createNewAccountForClientId(Account newAccount) throws SQLException {
+        try (Connection con = ConnectionUtility.getConnection()) {
+            String query = "INSERT INTO accounts (typeOfAccount, balance, client_id) VALUES (?::account_type, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setString(1, newAccount.getType());
+            pstmt.setDouble(2, newAccount.getBalance());
+            pstmt.setInt(3, newAccount.getClientId());
+
+            pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            return new Account(id, newAccount.getType(), newAccount.getBalance(), newAccount.getClientId());
+        }
     }
 }

@@ -50,8 +50,7 @@ public class ClientService {
             throw new ClientNotFoundException("Update attempt on client that does not exist: " + e.getMessage());
         }
         client.setId(Integer.parseInt(id));
-        Client updatedClient = clientDao.updateClient(client);
-        return updatedClient;
+        return clientDao.updateClient(client);
     }
 
     public boolean deleteClient(String id) throws SQLException {
