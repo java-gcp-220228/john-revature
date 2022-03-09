@@ -33,11 +33,12 @@ public class ClientController  implements Controller {
 
     private final Handler postNewClient = (ctx) -> {
         BodyValidator<Client> body = ctx.bodyValidator(Client.class);
-        Client new_client = body.check(client -> client.getAge() >= 18, "Client must be at least 18 years old")
+        Client new_client = body.check(client -> client.getAge() > 0, "Client must have a positive age")
                 .check(client -> client.getFirstName() != null, "Client must have a first name")
                 .check(client -> client.getLastName() != null, "Client must have a last name")
                 .get();
         Client client = clientService.addClient(new_client);
+        ctx.status(201);
         ctx.json(client);
     };
 
