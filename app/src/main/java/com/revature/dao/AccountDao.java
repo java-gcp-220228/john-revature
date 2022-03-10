@@ -88,4 +88,21 @@ public class AccountDao {
         }
         return account;
     }
+
+    public boolean deleteAccountById(int id) throws SQLException {
+        try (Connection con = ConnectionUtility.getConnection()) {
+            String query = "DELETE FROM accounts WHERE id = ?";
+
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setInt(1, id);
+
+            int numberOfRecordsDeleted = pstmt.executeUpdate();
+
+            if (numberOfRecordsDeleted == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

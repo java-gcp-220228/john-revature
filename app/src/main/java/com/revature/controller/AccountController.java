@@ -16,6 +16,7 @@ public class AccountController implements Controller {
     private AccountService accountService;
 
     public AccountController() { this.accountService = new AccountService();}
+
     private final Handler getAllAccountsByClientId = (ctx) -> {
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
         List<Account> accounts = accountService.getAllAccountByClientId(client_id);
@@ -93,12 +94,25 @@ public class AccountController implements Controller {
         ctx.json(updatedAccount);
     };
 
+    private final Handler deleteAccount = (ctx) -> {
+        String id = ctx.pathParam("id");
+        String client_id = ctx.pathParam("client_id");
+        if(accountService.deleteAccount(id,client_id)) {
+            ctx.status(200);
+            ctx.json("Account with id: " + id + " deleted");
+        }else {
+            ctx.status(400);
+            ctx.json("Unable to perform delete operation");
+        }
+    };
+
     private void throwIfNotSameClient(Account account, int clientId) {
         if (account.getClientId() != clientId) throw new UnauthorizedResponse("Client id does not match");
     }
     private Account sanitize(Context ctx) {
         BodyValidator<Account> body = ctx.bodyValidator(Account.class);
-        return body.check(account -> Account.types.contains(Account.AccountType.valueOf(account.getType())), "Invalid account type")
+        return body.check(account -> Account.types.contains(Account.AccountType.valueOf(account.getType())),
+                        "Invalid account type")
                 .check(account -> account.getClientId() > 0, "Invalid Client ID")
                 .get();
     }
@@ -109,5 +123,6 @@ public class AccountController implements Controller {
         app.get("/clients/{client_id}/accounts/{id}", getAccountById);
         app.post("/clients/{client_id}/accounts", createNewAccount);
         app.put("/clients/{client_id}/accounts/{id}", updateAccount);
+        app.delete("/clients/{client_id}/accounts/{id}", deleteAccount);
     }
 }
