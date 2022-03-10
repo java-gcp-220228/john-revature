@@ -4,9 +4,9 @@ import com.revature.model.Account;
 import com.revature.service.AccountService;
 import io.javalin.Javalin;
 import io.javalin.core.validation.BodyValidator;
-import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.http.UnauthorizedResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,23 +70,33 @@ public class AccountController implements Controller {
         int id = Integer.parseInt(ctx.pathParam("id"));
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
 
-        Account account = accountService.getAccountById(id, client_id);
+        Account account = accountService.getAccountById(id);
+        throwIfNotSameClient(account,client_id);
         ctx.json(account);
     };
 
     private final Handler createNewAccount = (ctx) -> {
         Account newAccount = sanitize(ctx);
         int client_id = Integer.parseInt(ctx.pathParam("client_id"));
-        if (newAccount.getClientId() == client_id) {
-            Account createdAccount = accountService.createAccount(newAccount);
-            ctx.status(201);
-            ctx.json(createdAccount);
-        } else {
-            throw new BadRequestResponse();
-        }
+        throwIfNotSameClient(newAccount, client_id);
+        Account createdAccount = accountService.createAccount(newAccount);
+        ctx.status(201);
+        ctx.json(createdAccount);
     };
 
-    public Account sanitize(Context ctx) {
+    private final Handler updateAccount = (ctx) -> {
+        Account accountToUpdate = sanitize(ctx);
+        int client_id = Integer.parseInt(ctx.pathParam("client_id"));
+        throwIfNotSameClient(accountToUpdate, client_id);
+        Account updatedAccount = accountService.updateAccount(accountToUpdate);
+        ctx.status(200);
+        ctx.json(updatedAccount);
+    };
+
+    private void throwIfNotSameClient(Account account, int clientId) {
+        if (account.getClientId() != clientId) throw new UnauthorizedResponse("Client id does not match");
+    }
+    private Account sanitize(Context ctx) {
         BodyValidator<Account> body = ctx.bodyValidator(Account.class);
         return body.check(account -> Account.types.contains(Account.AccountType.valueOf(account.getType())), "Invalid account type")
                 .check(account -> account.getClientId() > 0, "Invalid Client ID")
@@ -98,5 +108,6 @@ public class AccountController implements Controller {
         app.get("/clients/{client_id}/accounts", getAllAccountsByClientId);
         app.get("/clients/{client_id}/accounts/{id}", getAccountById);
         app.post("/clients/{client_id}/accounts", createNewAccount);
+        app.put("/clients/{client_id}/accounts/{id}", updateAccount);
     }
 }

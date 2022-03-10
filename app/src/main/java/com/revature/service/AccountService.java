@@ -2,7 +2,6 @@ package com.revature.service;
 
 import com.revature.dao.AccountDao;
 import com.revature.exception.AccountNotFoundException;
-import com.revature.exception.WrongAccountException;
 import com.revature.model.Account;
 
 import java.sql.SQLException;
@@ -21,16 +20,9 @@ public class AccountService {
         return this.accountDao.getAllAccountsFromClientId(clientId);
     }
 
-    public Account getAccountById(int id, int client_id) throws SQLException, AccountNotFoundException, WrongAccountException {
+    public Account getAccountById(int id) throws SQLException, AccountNotFoundException {
         try {
-            Account account = this.accountDao.getAccountById(id);
-
-            if (account == null) {
-                throw new AccountNotFoundException("Account with id: " + id + " was not found");
-            }else if (account.getClientId() != client_id) {
-                throw new WrongAccountException("Account does not belong to client");
-            }
-            return account;
+            return doesAccountExist(id);
         } catch (NumberFormatException e) {
             throw  new IllegalArgumentException("A value that was not corresponding to a valid integer was provided");
         }
@@ -38,6 +30,24 @@ public class AccountService {
 
     public Account createAccount(Account newAccount) throws SQLException {
         return this.accountDao.createNewAccountForClientId(newAccount);
+    }
+
+    public Account updateAccount(Account account) throws SQLException, AccountNotFoundException {
+        try {
+            doesAccountExist(account.getId());
+            return this.accountDao.updateAccount(account);
+        } catch (AccountNotFoundException e) {
+            throw new AccountNotFoundException("Update attempt on account that does not exist :" + e.getMessage());
+        }
+    }
+
+    private Account doesAccountExist(int id) throws SQLException, AccountNotFoundException {
+        Account account = this.accountDao.getAccountById(id);
+
+        if (account == null) {
+            throw new AccountNotFoundException("Account with id: " + id + " was not found");
+        }
+        return account;
     }
 
 }

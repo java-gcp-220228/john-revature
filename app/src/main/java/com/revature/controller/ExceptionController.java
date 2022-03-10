@@ -2,7 +2,6 @@ package com.revature.controller;
 
 import com.revature.exception.AccountNotFoundException;
 import com.revature.exception.ClientNotFoundException;
-import com.revature.exception.WrongAccountException;
 import io.javalin.Javalin;
 import io.javalin.http.ExceptionHandler;
 
@@ -27,7 +26,6 @@ public class ExceptionController implements Controller {
     public void mapEndpoints(Javalin app) {
         app.exception(ClientNotFoundException.class, notFound);
         app.exception(AccountNotFoundException.class, notFound);
-        app.exception(WrongAccountException.class, wrongAccount);
         app.exception(IllegalArgumentException.class, illegalArgument);
     }
 }

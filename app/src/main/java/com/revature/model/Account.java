@@ -17,6 +17,13 @@ public class Account {
     public Account() {
     }
 
+    public Account(int id, String type, int clientId) {
+        this.id = id;
+        this.type = type;
+        this.clientId = clientId;
+        this.balance = 0;
+    }
+
     public Account(int id, String type, double balance, int clientId) {
         this.id = id;
         this.type = type;

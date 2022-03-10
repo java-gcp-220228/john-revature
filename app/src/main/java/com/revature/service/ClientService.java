@@ -31,11 +31,7 @@ public class ClientService {
         try {
             int intId = Integer.parseInt(id);
 
-            Client client = this.clientDao.getClientById(intId);
-
-            if (client == null) {
-                throw new ClientNotFoundException("Client with id: " + id + " was not found");
-            }
+            Client client = doesClientExist(intId);
             return client;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("A value that was not corresponding to a valid integer was provided");
@@ -43,13 +39,12 @@ public class ClientService {
         }
     }
 
-    public Client updateClient(String id, Client client) throws ClientNotFoundException, SQLException {
+    public Client updateClient(Client client) throws ClientNotFoundException, SQLException {
         try {
-            getClientById(id);
+            doesClientExist(client.getId());
         } catch (ClientNotFoundException e) {
             throw new ClientNotFoundException("Update attempt on client that does not exist: " + e.getMessage());
         }
-        client.setId(Integer.parseInt(id));
         return clientDao.updateClient(client);
     }
 
@@ -65,5 +60,15 @@ public class ClientService {
 
         }
         return success;
+    }
+
+
+    private Client doesClientExist(int id) throws SQLException, ClientNotFoundException {
+        Client client = this.clientDao.getClientById(id);
+
+        if (client == null) {
+            throw new ClientNotFoundException("Client with id: " + id + " was not found");
+        }
+        return client;
     }
 }

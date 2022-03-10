@@ -53,11 +53,12 @@ public class AccountDao {
 
     public Account createNewAccountForClientId(Account newAccount) throws SQLException {
         try (Connection con = ConnectionUtility.getConnection()) {
-            String query = "INSERT INTO accounts (typeOfAccount, balance, client_id) VALUES (?::account_type, ?, ?)";
+            String query = "INSERT INTO accounts (typeOfAccount, balance, client_id) " +
+                    "VALUES (?::account_type, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, newAccount.getType());
-            pstmt.setDouble(2, newAccount.getBalance());
+            pstmt.setDouble(2, 0);
             pstmt.setInt(3, newAccount.getClientId());
 
             pstmt.executeUpdate();
@@ -65,7 +66,26 @@ public class AccountDao {
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-            return new Account(id, newAccount.getType(), newAccount.getBalance(), newAccount.getClientId());
+            return new Account(id, newAccount.getType(), newAccount.getClientId());
         }
+    }
+
+    public Account updateAccount(Account account) throws SQLException {
+        try (Connection con = ConnectionUtility.getConnection()) {
+            String query = "UPDATE accounts " +
+                    "SET typeOfAccount = ?::account_type, " +
+                    "balance = ?, " +
+                    "client_id = ?" +
+                    "WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setString(1, account.getType());
+            pstmt.setDouble(2,account.getBalance());
+            pstmt.setInt(3, account.getClientId());
+            pstmt.setInt(4, account.getId());
+
+            pstmt.executeUpdate();
+        }
+        return account;
     }
 }

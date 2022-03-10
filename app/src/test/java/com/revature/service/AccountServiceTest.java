@@ -2,7 +2,6 @@ package com.revature.service;
 
 import com.revature.dao.AccountDao;
 import com.revature.exception.AccountNotFoundException;
-import com.revature.exception.WrongAccountException;
 import com.revature.model.Account;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,12 +43,12 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testGetAccountById_positive() throws SQLException, WrongAccountException, AccountNotFoundException {
+    public void testGetAccountById_positive() throws SQLException, AccountNotFoundException {
         when(mockDao.getAccountById(eq(100))).thenReturn(
                 new Account(100, Account.AccountType.CHEQUING.name(), 0, 1)
         );
 
-        Account actual = accountService.getAccountById(100, 1);
+        Account actual = accountService.getAccountById(100);
 
         Account expected = new Account(100, Account.AccountType.CHEQUING.name(), 0, 1);
         Assertions.assertEquals(expected, actual);
@@ -58,33 +57,23 @@ public class AccountServiceTest {
     @Test
     public void testGetAccountById_accountDoesNotExist() {
         Assertions.assertThrows(AccountNotFoundException.class, () -> {
-            accountService.getAccountById(0, 1);
+            accountService.getAccountById(0);
         });
     }
 
     @Test
     public void testGetAccountById_invalidId() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            accountService.getAccountById(Integer.parseInt("invalid string"), 1);
+            accountService.getAccountById(Integer.parseInt("invalid string"));
         });
     }
 
-    @Test
-    public void testGetAccountById_wrongAccount() throws SQLException {
-        when(mockDao.getAccountById(eq(100))).thenReturn(
-                new Account(100, Account.AccountType.CHEQUING.name(), 0, 1)
-        );
-
-        Assertions.assertThrows(WrongAccountException.class, () -> {
-            accountService.getAccountById(100,2);
-        });
-    }
 
     @Test
     public void testGetAccountById_sqlException() throws SQLException {
         when(mockDao.getAccountById(anyInt())).thenThrow(SQLException.class);
         Assertions.assertThrows(SQLException.class, () -> {
-            accountService.getAccountById(1,1);
+            accountService.getAccountById(1);
         });
     }
 }

@@ -41,7 +41,7 @@ public class ClientController  implements Controller {
 
     private final Handler putNewClientDetails = (ctx) -> {
         Client new_details = sanitize(ctx);
-        Client updatedClient = clientService.updateClient(ctx.pathParam("id"), new_details);
+        Client updatedClient = clientService.updateClient(new_details);
 
         ctx.status(200);
         ctx.json(updatedClient);
@@ -61,9 +61,12 @@ public class ClientController  implements Controller {
 
     public Client sanitize(Context ctx) {
         BodyValidator<Client> body = ctx.bodyValidator(Client.class);
+        String id = ctx.pathParam("id");
         return body.check(client -> client.getAge() > 0, "Client must have a positive age")
                 .check(client -> client.getFirstName() != null, "Client must have a first name")
+                .check(client -> client.getFirstName().matches("[a-zA-Z]+"),"Client name must be alphabetical")
                 .check(client -> client.getLastName() != null, "Client must have a last name")
+                .check(client -> client.getLastName().matches("[a-zA-Z]+"),"Client name must be alphabetical")
                 .get();
     }
 
