@@ -6,6 +6,6 @@ tmp/
 out-tsc/
 node_modules/
 .angular/
-
+.vscode/
 
 *.log
