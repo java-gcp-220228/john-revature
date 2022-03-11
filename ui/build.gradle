@@ -20,3 +20,9 @@ node {
 task build(type: NpmTask) {
     args = ['run', 'build']
 }
+
+task test(type: NpxTask) {
+  dependsOn npmInstall
+  command = 'ng'
+  args = ['test']
+}
