@@ -1,6 +1,8 @@
 <mat-toolbar>
-  <h1>Banking API</h1>
-  <br/>
-  <a routerLink="clients">Clients</a>
+  <span><h1>Banking API</h1></span>
+  <span class="spacer"></span>
+  <button mat-icon-button [routerLink]="['/clients']">
+    <mat-icon>group</mat-icon>
+  </button>
 </mat-toolbar>
 <router-outlet></router-outlet>
