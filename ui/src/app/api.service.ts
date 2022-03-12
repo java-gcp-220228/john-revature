@@ -24,4 +24,8 @@ export class ApiService {
   getAccounts(id: string): Observable<AccountItem[]> {
     return this.http.get<AccountItem[]>(`${environment.apiUrl}/clients/${id}/accounts`);
   }
+
+  getAccountById(clientId: string, id: string): Observable<AccountItem> {
+    return this.http.get<AccountItem>(`${environment.apiUrl}/clients/${clientId}/accounts/${id}`);
+  }
 }
