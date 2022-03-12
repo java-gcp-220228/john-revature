@@ -2,7 +2,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
+import { ApiService } from '../api.service';
 
 export interface ClientItem {
   firstName: string;
@@ -12,26 +13,20 @@ export interface ClientItem {
 }
 
 
-export const EXAMPLE_DATA = [
-  { id: 1, firstName:'Test', lastName: "Tester", age: 20 },
-  { id: 2, firstName:'Test1', lastName: "Tester", age: 22 },
-  { id: 3, firstName:'Test5', lastName: "Tester", age: 23 },
-  { id: 4, firstName:'Test3', lastName: "Tester", age: 10 },
-  { id: 5, firstName:'Test2', lastName: "Tester", age: 29 }
-];
-
 /**
  * Data source for the Client view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class ClientDataSource extends DataSource<ClientItem> {
-  data: ClientItem[] = EXAMPLE_DATA;
+  data$: Observable<ClientItem[]>;
+  data: ClientItem[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  constructor() {
+  constructor(private api: ApiService) {
     super();
+    this.data$ = api.getClients();
   }
 
   /**
@@ -43,7 +38,10 @@ export class ClientDataSource extends DataSource<ClientItem> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
-      return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange)
+      this.data$.subscribe(
+        (d) => this.data = d
+      );
+      return merge(this.data$, this.paginator.page, this.sort.sortChange)
         .pipe(map(() => {
           return this.getPagedData(this.getSortedData([...this.data ]));
         }));

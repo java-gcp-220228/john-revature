@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { ApiService } from '../api.service';
 import { ClientDataSource, ClientItem } from './client-datasource';
 
 @Component({
@@ -18,8 +19,8 @@ export class ClientComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'firstName', 'lastName', 'age'];
 
-  constructor() {
-    this.dataSource = new ClientDataSource();
+  constructor(private api:ApiService) {
+    this.dataSource = new ClientDataSource(api);
   }
 
   ngAfterViewInit(): void {
