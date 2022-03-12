@@ -1,0 +1,11 @@
+<mat-list>
+<mat-list-item>
+  <h1>{{client.firstName}} </h1><h2>{{client.lastName}}</h2>
+</mat-list-item>
+<mat-divider></mat-divider>
+<mat-list-item>
+  <h3>{{client.age}} years old</h3>
+</mat-list-item>
+<mat-divider></mat-divider>
+</mat-list>
+<app-account [client-id]="'' + client.id"></app-account>
