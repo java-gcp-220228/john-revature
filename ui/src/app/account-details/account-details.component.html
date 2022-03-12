@@ -2,7 +2,7 @@
   <mat-card-title>Account: {{account.id}} Client: {{account.clientId}}</mat-card-title>
   <mat-card-subtitle>Type: {{account.type}}</mat-card-subtitle>
   <mat-card-content>
-    Balance: {{account.balance}}
+    Balance: {{account.balance | currency}}
   </mat-card-content>
   <mat-card-actions>
     <button mat-button>Deposit</button>
