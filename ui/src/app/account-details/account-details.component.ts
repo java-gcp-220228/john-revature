@@ -21,7 +21,6 @@ export class AccountDetailsComponent implements OnInit {
     this.api.getAccountById(clientId,accountId).subscribe(
       (account) => this.account = account
     );
-    if (this.account == undefined) this.account = {id: 0, type: '', balance: 0, clientId: 0};
   }
 
 }

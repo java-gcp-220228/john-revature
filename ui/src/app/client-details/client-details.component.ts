@@ -20,7 +20,6 @@ export class ClientDetailsComponent implements OnInit {
     this.api.getClientById(clientId).subscribe(
     (client) => this.client = client
     );
-    if(this.client == undefined) this.client = {id: 0, firstName: '', lastName: '', age: 0};
   }
 
 }
