@@ -35,6 +35,10 @@ export class ApiService {
     return this.http.post<ClientItem>(`${environment.apiUrl}/clients`, client);
   }
 
+  updateClient(client: ClientItem): Observable<ClientItem> {
+    return this.http.put<ClientItem>(`${environment.apiUrl}/clients/${client.id}`, client);
+  }
+
   getClientAccounts(): Observable<Client[]> {
     return this.http.get<Client[]>(`${environment.apiUrl}/clients-accounts`);
   }

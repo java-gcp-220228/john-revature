@@ -44,6 +44,18 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  updateClient(client: Client) {
+    const dialogRef =this.dialog.open(ClientDialog, {
+      data: {id: client.id, firstName: client.firstName, lastName: client.lastName, age: client.age}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.api.updateClient(res).subscribe(
+        () => this.loadClientAccounts()
+      );
+    });
+  }
+
   loadClientAccounts(): void {
     this.api.getClientAccounts().subscribe(
       c => this.clients = c
