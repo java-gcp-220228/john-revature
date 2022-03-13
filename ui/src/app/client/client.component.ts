@@ -19,7 +19,7 @@ export class ClientComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'firstName', 'lastName', 'age'];
 
-  constructor(private api:ApiService) {
+  constructor(private api: ApiService) {
     this.dataSource = new ClientDataSource(api);
   }
 

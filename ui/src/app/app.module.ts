@@ -17,6 +17,8 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
 import { AccountComponent } from './account/account.component';
 import { ApiService } from './api.service';
 import { AccountDetailsComponent } from './account-details/account-details.component';
+import { AdminComponent } from './admin/admin.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
     ClientComponent,
     ClientDetailsComponent,
     AccountComponent,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
     MatTableModule,
     MatToolbarModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
