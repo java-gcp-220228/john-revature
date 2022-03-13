@@ -39,7 +39,24 @@ export class ApiService {
     return this.http.put<ClientItem>(`${environment.apiUrl}/clients/${client.id}`, client);
   }
 
+  deleteClient(client: ClientItem): Observable<ClientItem> {
+    return this.http.delete<ClientItem>(`${environment.apiUrl}/clients/${client.id}`);
+  }
+
   getClientAccounts(): Observable<Client[]> {
     return this.http.get<Client[]>(`${environment.apiUrl}/clients-accounts`);
+  }
+
+  postAccount(clientId: number, type: string): Observable<AccountItem> {
+    let account: AccountItem = {id: 0, type: type, balance: 0, clientId: clientId}
+    return this.http.post<AccountItem>(`${environment.apiUrl}/clients/${clientId}/accounts`, account);
+  }
+
+  updateAccount(account: AccountItem): Observable<AccountItem> {
+    return this.http.put<AccountItem>(`${environment.apiUrl}/clients/${account.clientId}/accounts/${account.id}`, account);
+  }
+
+  deleteAccount(account: AccountItem): Observable<AccountItem> {
+    return this.http.delete<AccountItem>(`${environment.apiUrl}/clients/${account.clientId}/accounts/${account.id}`);
   }
 }

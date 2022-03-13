@@ -1,11 +1,18 @@
 <mat-list>
   <ng-container *ngFor="let client of clients">
-    <mat-list-item>Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
+    <mat-list-item>
+      Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
       <button mat-raised-button (click)="updateClient(client)">Update Client</button>
+      <button mat-raised-button (click)="newAccount(client)">Create New Account</button>
+      <button mat-raised-button color="warn" (click)="deleteClient(client)">Delete Client</button>
     </mat-list-item>
     <mat-list style="margin-left: 30px;">
       <div *ngFor="let account of client.accounts">
-        <mat-list-item>Account: {{account.id}} {{account.balance | currency}}</mat-list-item>
+        <mat-list-item>
+          Account: {{account.id}} Type {{account.type}} {{account.balance | currency}}
+          <button mat-raised-button (click)="updateAccount(account)">Update Account</button>
+          <button mat-raised-button color="warn" (click)="deleteAccount(account)">Delete Account</button>
+        </mat-list-item>
       </div>
     </mat-list>
   </ng-container>
