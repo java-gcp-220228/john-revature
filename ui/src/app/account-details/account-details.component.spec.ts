@@ -1,4 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ApiService } from '../api.service';
 
 import { AccountDetailsComponent } from './account-details.component';
 
@@ -8,7 +14,15 @@ describe('AccountDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountDetailsComponent ]
+      providers: [ ApiService ],
+      declarations: [ AccountDetailsComponent ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatCardModule,
+        MatIconModule,
+        MatListModule,
+      ]
     })
     .compileComponents();
   });

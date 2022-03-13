@@ -10,7 +10,7 @@ import { ClientItem } from '../client/client-datasource';
 })
 export class ClientDetailsComponent implements OnInit {
 
-  client!: ClientItem;
+  client: ClientItem = {id: 0, firstName: '', lastName: '', age: 0};
 
   constructor(private route: ActivatedRoute,
     private api: ApiService) {}

@@ -5,6 +5,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { ClientComponent } from './client.component';
+import { ApiService } from '../api.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ClientComponent', () => {
   let component: ClientComponent;
@@ -12,12 +14,14 @@ describe('ClientComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      providers: [ ApiService ],
       declarations: [ ClientComponent ],
       imports: [
         NoopAnimationsModule,
         MatPaginatorModule,
         MatSortModule,
         MatTableModule,
+        HttpClientTestingModule
       ]
     }).compileComponents();
   }));
