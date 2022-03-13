@@ -1,9 +1,6 @@
 package com.revature.main;
 
-import com.revature.controller.AccountController;
-import com.revature.controller.ClientController;
-import com.revature.controller.Controller;
-import com.revature.controller.ExceptionController;
+import com.revature.controller.*;
 import com.revature.dao.ClientDao;
 import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
@@ -33,7 +30,10 @@ public class Server {
             }
         });
 
-        map(app, new ClientController(), new AccountController(), new ExceptionController());
+        map(app, new ClientController(),
+                new AccountController(),
+                new JoinController(),
+                new ExceptionController());
 
         app.start(7070);
     }

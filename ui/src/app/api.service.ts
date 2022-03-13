@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClientItem } from './client/client-datasource';
 import { AccountItem } from './account/account-datasource';
+import { Client } from './admin/admin.component';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class ApiService {
   postClient(firstName: string, lastName: string, age: number): Observable<ClientItem> {
     let client: ClientItem = {id: 0, firstName: firstName, lastName: lastName, age: age};
     return this.http.post<ClientItem>(`${environment.apiUrl}/clients`, client);
+  }
+
+  getClientAccounts(): Observable<Client[]> {
+    return this.http.get<Client[]>(`${environment.apiUrl}/clients-accounts`);
   }
 }

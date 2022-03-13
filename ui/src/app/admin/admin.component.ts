@@ -31,11 +31,6 @@ export class AdminComponent implements OnInit {
   constructor(private api: ApiService,
     public dialog: MatDialog) {}
 
-  loadAccounts(client: Client): void {
-    this.api.getAccounts('' + client.id).subscribe(
-      a => client.accounts = a
-    );
-  }
 
   newClient(): void {
     const dialogRef =this.dialog.open(ClientDialog, {
@@ -44,21 +39,19 @@ export class AdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       this.api.postClient(res.firstName, res.lastName, res.age).subscribe(
-        () => this.loadClients()
+        () => this.loadClientAccounts()
       );
     });
-
-
   }
 
-  loadClients(): void {
-    this.api.getClients().subscribe(
+  loadClientAccounts(): void {
+    this.api.getClientAccounts().subscribe(
       c => this.clients = c
     );
   }
 
   ngOnInit(): void {
-    this.loadClients();
+    this.loadClientAccounts();
   }
 
 }
