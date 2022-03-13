@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,5 +47,5 @@ describe('ClientDetailsComponent', () => {
   template: ''
 })
 class MockAccountComponent {
-
+  @Input('client-id') id!: string;
 }

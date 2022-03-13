@@ -10,7 +10,7 @@ import { ClientItem } from '../client/client-datasource';
 })
 export class ClientDetailsComponent implements OnInit {
 
-  client: ClientItem = {id: 0, firstName: '', lastName: '', age: 0};
+  client!: ClientItem;
 
   constructor(private route: ActivatedRoute,
     private api: ApiService) {}
@@ -20,6 +20,7 @@ export class ClientDetailsComponent implements OnInit {
     this.api.getClientById(clientId).subscribe(
     (client) => this.client = client
     );
+    if(this.client == undefined) this.client = {id: 0, firstName: '', lastName: '', age: 0};
   }
 
 }

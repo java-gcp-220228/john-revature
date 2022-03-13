@@ -10,7 +10,7 @@ import { ApiService } from '../api.service';
 })
 export class AccountDetailsComponent implements OnInit {
 
-  account: AccountItem = {id:0, type:'', balance: 0, clientId: 0};
+  account!: AccountItem;
 
   constructor(private route: ActivatedRoute,
     private api: ApiService) {}
@@ -21,6 +21,7 @@ export class AccountDetailsComponent implements OnInit {
     this.api.getAccountById(clientId,accountId).subscribe(
       (account) => this.account = account
     );
+    if (this.account == undefined) this.account = {id: 0, type: '', balance: 0, clientId: 0};
   }
 
 }
