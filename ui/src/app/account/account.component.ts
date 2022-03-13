@@ -25,7 +25,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new AccountDataSource(this.api, this.id);
+    this.dataSource = new AccountDataSource(this.api.getAccounts(this.id));
   }
 
   ngAfterViewInit(): void {

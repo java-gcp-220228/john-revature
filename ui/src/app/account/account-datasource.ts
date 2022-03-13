@@ -19,15 +19,12 @@ export interface AccountItem {
  * (including sorting, pagination, and filtering).
  */
 export class AccountDataSource extends DataSource<AccountItem> {
-  data$: Observable<AccountItem[]>;
   data: AccountItem[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  constructor(private api: ApiService,
-    private id: string) {
+  constructor(private data$: Observable<AccountItem[]>) {
     super();
-    this.data$ = api.getAccounts(id);
   }
 
   /**

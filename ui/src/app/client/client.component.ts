@@ -20,7 +20,7 @@ export class ClientComponent implements AfterViewInit {
   displayedColumns = ['id', 'firstName', 'lastName', 'age'];
 
   constructor(private api: ApiService) {
-    this.dataSource = new ClientDataSource(api);
+    this.dataSource = new ClientDataSource(this.api.getClients());
   }
 
   ngAfterViewInit(): void {

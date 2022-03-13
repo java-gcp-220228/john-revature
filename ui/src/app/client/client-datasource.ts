@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, merge } from 'rxjs';
-import { ApiService } from '../api.service';
 
 export interface ClientItem {
   firstName: string;
@@ -19,14 +18,12 @@ export interface ClientItem {
  * (including sorting, pagination, and filtering).
  */
 export class ClientDataSource extends DataSource<ClientItem> {
-  data$: Observable<ClientItem[]>;
   data: ClientItem[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  constructor(private api: ApiService) {
+  constructor(private data$: Observable<ClientItem[]>) {
     super();
-    this.data$ = api.getClients();
   }
 
   /**
