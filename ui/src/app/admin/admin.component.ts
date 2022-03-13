@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../api.service';
+import { ClientDialog } from '../dialog/client.dialog';
 
 export interface Client {
   id: number;
@@ -24,19 +26,39 @@ export interface Account {
 export class AdminComponent implements OnInit {
 
   clients!: Client[];
+  client: Client = {id: 0, firstName: 'First', lastName: 'Last', age: 0};
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,
+    public dialog: MatDialog) {}
 
-  loadAccounts(client: Client): void{
+  loadAccounts(client: Client): void {
     this.api.getAccounts('' + client.id).subscribe(
-      (a) => client.accounts = a
+      a => client.accounts = a
+    );
+  }
+
+  newClient(): void {
+    const dialogRef =this.dialog.open(ClientDialog, {
+      data: {firstName: this.client.firstName, lastName: this.client.lastName, age: this.client.age}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.api.postClient(res.firstName, res.lastName, res.age).subscribe(
+        () => this.loadClients()
+      );
+    });
+
+
+  }
+
+  loadClients(): void {
+    this.api.getClients().subscribe(
+      c => this.clients = c
     );
   }
 
   ngOnInit(): void {
-    this.api.getClients().subscribe(
-      (c) => this.clients = c
-    );
+    this.loadClients();
   }
 
 }

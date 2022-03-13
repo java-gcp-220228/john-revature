@@ -61,7 +61,6 @@ public class ClientController  implements Controller {
 
     public Client sanitize(Context ctx) {
         BodyValidator<Client> body = ctx.bodyValidator(Client.class);
-        String id = ctx.pathParam("id");
         return body.check(client -> client.getAge() > 0, "Client must have a positive age")
                 .check(client -> client.getFirstName() != null, "Client must have a first name")
                 .check(client -> client.getFirstName().matches("[a-zA-Z]+"),"Client name must be alphabetical")

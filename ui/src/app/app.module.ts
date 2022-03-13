@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClientComponent } from './client/client.component';
 import { HttpClientModule } from '@angular/common/http'
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTableModule } from '@angular/material/table';
@@ -19,6 +20,9 @@ import { ApiService } from './api.service';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 import { AdminComponent } from './admin/admin.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ClientDialog } from './dialog/client.dialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,14 +31,18 @@ import { MatButtonModule } from '@angular/material/button';
     ClientDetailsComponent,
     AccountComponent,
     AccountDetailsComponent,
-    AdminComponent
+    AdminComponent,
+    ClientDialog
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     HttpClientModule,
     MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
     MatListModule,
     MatIconModule,
     MatTableModule,

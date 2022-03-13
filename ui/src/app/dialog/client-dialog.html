@@ -1,0 +1,19 @@
+<div mat-dialog-content>
+  <p>Enter Client Info</p>
+  <mat-form-field appearance="fill">
+    <mat-label>First Name</mat-label>
+    <input matInput [(ngModel)]="data.firstName">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput [(ngModel)]="data.lastName">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Age</mat-label>
+    <input matInput [(ngModel)]="data.age">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Submit</button>
+</div>

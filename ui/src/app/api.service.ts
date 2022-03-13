@@ -28,4 +28,9 @@ export class ApiService {
   getAccountById(clientId: string, id: string): Observable<AccountItem> {
     return this.http.get<AccountItem>(`${environment.apiUrl}/clients/${clientId}/accounts/${id}`);
   }
+
+  postClient(firstName: string, lastName: string, age: number): Observable<ClientItem> {
+    let client: ClientItem = {id: 0, firstName: firstName, lastName: lastName, age: age};
+    return this.http.post<ClientItem>(`${environment.apiUrl}/clients`, client);
+  }
 }

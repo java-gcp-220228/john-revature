@@ -1,12 +1,14 @@
 <mat-list>
   <ng-container *ngFor="let client of clients">
     <mat-list-item>Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
-      <button (click)="loadAccounts(client)">Load accounts</button>
+      <button mat-raised-button (click)="loadAccounts(client)">Load accounts</button>
     </mat-list-item>
     <mat-list style="margin-left: 30px;">
       <div *ngFor="let account of client.accounts">
-        <mat-list-item>{{account.balance | currency}}</mat-list-item>
+        <mat-list-item>Account: {{account.id}} {{account.balance | currency}}</mat-list-item>
       </div>
     </mat-list>
   </ng-container>
 </mat-list>
+
+<button mat-raised-button (click)="newClient()">Add New Client</button>
