@@ -3,9 +3,6 @@ plugins {
     id 'application'
 }
 
-group 'com.revature'
-version '1.0-SNAPSHOT'
-
 
 repositories {
     mavenCentral()
@@ -28,6 +25,10 @@ application {
 }
 
 jar {
+    dependsOn ':ui:build'
+    from('../static') {
+        into 'static'
+    }
     manifest {
         attributes 'Main-Class': 'com.revature.main.Server'
     }

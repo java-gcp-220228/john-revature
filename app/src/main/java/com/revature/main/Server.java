@@ -14,7 +14,7 @@ public class Server {
 
     public static void main(String[] args) {
         Javalin app = Javalin.create(javalinConfig -> {
-            javalinConfig.addStaticFiles("../ui/dist/ui/",Location.EXTERNAL);
+            javalinConfig.addStaticFiles("static",Location.CLASSPATH);
             javalinConfig.enableCorsForAllOrigins();
         });
 
