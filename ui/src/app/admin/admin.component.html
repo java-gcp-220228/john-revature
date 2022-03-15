@@ -1,5 +1,5 @@
 <button mat-raised-button (click)="newClient()">Add New Client</button>
-<mat-list>
+<mat-list *ngIf="!loading">
   <ng-container *ngFor="let client of clients">
     <mat-list-item>
       Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}

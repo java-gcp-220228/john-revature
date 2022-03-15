@@ -43,6 +43,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      this.loading = true;
       this.api.postClient(res.firstName, res.lastName, res.age).subscribe(
         () => this.loadClientAccounts()
       );
@@ -55,6 +56,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      this.loading = true;
       this.api.updateClient(res).subscribe(
         () => this.loadClientAccounts()
       );
@@ -72,6 +74,7 @@ export class AdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.loading = true;
         this.api.deleteClient(client).subscribe();
         this.loadClientAccounts();
       }
@@ -84,6 +87,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      this.loading = true;
       this.api.postAccount(client.id, res.type).subscribe(
         () => this.loadClientAccounts()
       );
@@ -96,6 +100,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      this.loading = true;
       this.api.updateAccount(res).subscribe(
         () => this.loadClientAccounts()
       );
@@ -113,6 +118,7 @@ export class AdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.loading = true;
         this.api.deleteAccount(account).subscribe();
         this.loadClientAccounts();
       }
