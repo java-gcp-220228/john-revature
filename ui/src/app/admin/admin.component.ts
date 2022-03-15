@@ -30,6 +30,7 @@ export class AdminComponent implements OnInit {
 
   clients!: Client[];
   client: Client = {id: 0, firstName: 'First', lastName: 'Last', age: 0};
+  loading: boolean = true;
 
   constructor(private api: ApiService,
     public dialog: MatDialog,
@@ -120,8 +121,11 @@ export class AdminComponent implements OnInit {
 
   loadClientAccounts(): void {
     this.api.getClientAccounts().subscribe(
-      c => this.clients = c
-    );
+      c => {
+      this.clients = c;
+      this.loading = false;
+      }
+    )
   }
 
   ngOnInit(): void {
