@@ -1,0 +1,7 @@
+Dockerfile
+.git
+node_modules
+.gitignore
+tmp
+.vscode/
+idea.

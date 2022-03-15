@@ -1,2 +1,2 @@
 rootProject.name = 'project-0'
-include 'ui', 'app'
+include 'app', 'ui'
