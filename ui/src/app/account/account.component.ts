@@ -1,7 +1,9 @@
+import { HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { AccountDataSource, AccountItem } from './account-datasource';
 
@@ -20,12 +22,22 @@ export class AccountComponent implements OnInit, AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'type', 'balance', 'clientId'];
 
-  constructor(private api: ApiService) {
-
+  constructor(private api: ApiService,
+    private route: ActivatedRoute,
+    ) {
+    if (this.id == undefined) this.route.snapshot.paramMap.get('clientId')!
   }
 
   ngOnInit(): void {
-    this.dataSource = new AccountDataSource(this.api.getAccounts(this.id));
+    let queryParamMap = this.route.snapshot.queryParamMap;
+    if (queryParamMap.has('amountLessThan') || queryParamMap.has('amountGreaterThan')) {
+      this.route.queryParams.subscribe(p => {
+        let params: HttpParams = new HttpParams({fromObject: p})
+        this.dataSource = new AccountDataSource(this.api.getAccountsWithParams(this.id, params))
+      });
+    } else {
+      this.dataSource = new AccountDataSource(this.api.getAccounts(this.id));
+    }
   }
 
   ngAfterViewInit(): void {

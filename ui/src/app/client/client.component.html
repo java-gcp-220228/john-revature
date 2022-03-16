@@ -1,9 +1,16 @@
+<span>Minimum Balance: {{min | currency}}</span>
+<input [(ngModel)]="min">
+<span>Maximum Balance: {{max | currency}}</span>
+<input [(ngModel)]="max">
+
 <div class="mat-elevation-z8">
-  <table mat-table class="full-width-table" matSort aria-label="Elements">
+  <table mat-table class="full-width-table" matSort aria-label="Clients">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row"><a [routerLink]="['/clients', row.id]">{{row.id}}</a></td>
+      <td mat-cell *matCellDef="let row"><a [routerLink]="['/client', row.id]"
+        [queryParams]="{'amountGreaterThan': min, 'amountLessThan': max}"
+        [queryParamsHandling]="'merge'">{{row.id}}</a></td>
     </ng-container>
 
     <!-- firstName Column -->
