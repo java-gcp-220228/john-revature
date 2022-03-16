@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ApiService } from '../api.service';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { ClientDataSource, ClientItem } from './client-datasource';
 
 @Component({
@@ -18,11 +18,13 @@ export class ClientComponent implements OnInit, AfterViewInit {
   dataSource!: ClientDataSource;
   min!: number;
   max!: number;
+  clients$!: Observable<ClientItem[]>;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'firstName', 'lastName', 'age'];
 
-  constructor(private api: ApiService,
+
+  constructor(
     private route: ActivatedRoute
     ) {
       this.route.queryParams.subscribe(
@@ -34,7 +36,10 @@ export class ClientComponent implements OnInit, AfterViewInit {
     }
 
   ngOnInit(): void {
-    this.dataSource = new ClientDataSource(this.api.getClients());
+    this.route.data.subscribe(data => {
+      this.clients$ = of(data['clients']);
+    });
+    this.dataSource = new ClientDataSource(this.clients$);
   }
 
   ngAfterViewInit(): void {
