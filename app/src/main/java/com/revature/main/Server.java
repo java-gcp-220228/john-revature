@@ -30,6 +30,10 @@ public class Server {
             }
         });
 
+        app.after((ctx) -> {
+            logger.info("Server response: ("+ ctx.status() + ") " + ctx.resultString());
+        });
+
         map(app, new ClientController(),
                 new AccountController(),
                 new JoinController(),
