@@ -18,14 +18,6 @@ with psycopg.connect(
     # Open a cursor to perform database operations
     with conn.cursor() as cur:
         cur.execute("""
-                    CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
-                    RETURNS INT AS
-                    $$
-                    BEGIN
-                    RETURN floor(random()* (high-low + 1) + low);
-                    END;
-                    $$ language 'plpgsql' STRICT;
-
                     drop type if exists account_type cascade;
 
                     create type account_type as enum('CHEQUING',
