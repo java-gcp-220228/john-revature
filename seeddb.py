@@ -6,11 +6,13 @@ fake = Faker()
 
 pg_user = os.getenv('POSTGRES_USER')
 pg_pass = os.getenv('POSTGRES_PASSWORD')
+pg_host = os.getenv('POSTGRES_HOST')
+pg_port = os.getenv('POSTGRES_PORT')
 
 # Connect to an existing database
 with psycopg.connect(
-    host="localhost",
-    port=5433,
+    host=pg_host,
+    port=pg_port,
     user=pg_user,
     password=pg_pass,
     ) as conn:
