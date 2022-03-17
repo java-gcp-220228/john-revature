@@ -53,7 +53,8 @@ with psycopg.connect(
                         INSERT INTO clients (first_name,last_name,age)
                         VALUES (%s,%s,%s)
                         """,
-                        (fname,lname,age))            
+                        (fname,lname,age))
+        conn.commit();            
         # # Execute a command: this creates a new table
         # cur.execute("""
         #     CREATE TABLE test (
