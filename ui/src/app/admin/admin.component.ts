@@ -29,8 +29,8 @@ export interface Account {
 export class AdminComponent implements OnInit {
 
   clients!: Client[];
-  client: Client = {id: 0, firstName: 'First', lastName: 'Last', age: 0};
   loading: boolean = true;
+  items = Array(1000).fill(0).map(() => Math.round(Math.random() * 100));
 
   constructor(private api: ApiService,
     public dialog: MatDialog,
@@ -39,14 +39,13 @@ export class AdminComponent implements OnInit {
 
   newClient(): void {
     const dialogRef = this.dialog.open(ClientDialog, {
-      data: {firstName: this.client.firstName, lastName: this.client.lastName, age: this.client.age}
+      data: {firstName: 'firstName', lastName: 'lastName', age: 0}
     });
 
     dialogRef.afterClosed().subscribe(res => {
       this.api.postClient(res.firstName, res.lastName, res.age).subscribe(
-        () => {
-          this.loading = true;
-          this.loadClientAccounts();
+        (c) => {
+          this.clients.push({id: c.id, firstName: c.firstName, lastName: c.lastName, age: c.age});
         }
       );
     });
@@ -58,12 +57,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.api.updateClient(res).subscribe(
-        () => {
-          this.loading = true;
-          this.loadClientAccounts();
-        }
-      );
+      this.api.updateClient(res).subscribe();
     });
   }
 
@@ -85,18 +79,16 @@ export class AdminComponent implements OnInit {
 
   }
 
-  newAccount(client: Client): void {
+  newAccount(client: Client, index: number): void {
     const dialogRef = this.dialog.open(AccountDialog, {
       data: {type: 'CHEQUING', balance: 0, clientId: client.id}
     });
 
     dialogRef.afterClosed().subscribe(res => {
       this.api.postAccount(client.id, res.type).subscribe(
-        () => {
-          this.loading = true;
-          this.loadClientAccounts();
-        }
-      );
+        (a) => {
+          this.clients[index].accounts?.push({id: a.id, type: a.type, balance: a.balance, clientId: a.clientId});
+        });
     });
   }
 
@@ -106,16 +98,11 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.api.updateAccount(res).subscribe(
-        () => {
-          this.loading = true;
-          this.loadClientAccounts();
-        }
-      );
+      this.api.updateAccount(res).subscribe();
     });
   }
 
-  deleteAccount(account: Account): void {
+  deleteAccount(account: Account, index: number): void {
     if (account.balance > 0) {
       this.snackbar.open('Cannot delete account with balance > 0')
       return;
@@ -127,13 +114,14 @@ export class AdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.api.deleteAccount(account).subscribe();
-        this.clients[account.clientId].accounts = this.clients[account.clientId].accounts?.filter((a) => a.id != account.id);
+        this.clients[index].accounts = this.clients[index].accounts?.filter((a) => a.id != account.id);
       }
     });
 
   }
 
   loadClientAccounts(): void {
+    this.loading = true;
     this.api.getClientAccounts().subscribe(
       c => {
       this.clients = c;

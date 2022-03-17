@@ -1,22 +1,21 @@
 <button mat-raised-button (click)="newClient()">Add New Client</button>
-<mat-list *ngIf="!loading">
-  <ng-container *ngFor="let client of clients">
-    <mat-list-item>
-      Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
-      <button mat-raised-button (click)="updateClient(client)">Update Client</button>
-      <button mat-raised-button (click)="newAccount(client)">Create New Account</button>
-      <button mat-raised-button color="warn" (click)="deleteClient(client)">Delete Client</button>
-    </mat-list-item>
-    <mat-list style="margin-left: 30px;">
-      <div *ngFor="let account of client.accounts">
-        <mat-list-item>
+<div *ngIf="!loading">
+  <dl>
+    <ng-container *ngFor="let client of clients; index as i">
+      <dt>
+        Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
+        <button mat-raised-button (click)="updateClient(client)">Update Client</button>
+        <button mat-raised-button (click)="newAccount(client, i)">Create New Account</button>
+        <button mat-raised-button color="warn" (click)="deleteClient(client)">Delete Client</button>
+      </dt>
+      <ng-container *ngFor="let account of client.accounts">
+        <dd>
           Account: {{account.id}} Type {{account.type}} {{account.balance | currency}}
           <button mat-raised-button (click)="updateAccount(account)">Update Account</button>
-          <button mat-raised-button color="warn" (click)="deleteAccount(account)">Delete Account</button>
-        </mat-list-item>
-      </div>
-    </mat-list>
-  </ng-container>
-</mat-list>
+          <button mat-raised-button color="warn" (click)="deleteAccount(account, i)">Delete Account</button>
+        </dd>
+      </ng-container>
+    </ng-container>
+  </dl>
+</div>
 <mat-spinner *ngIf="loading"></mat-spinner>
-
