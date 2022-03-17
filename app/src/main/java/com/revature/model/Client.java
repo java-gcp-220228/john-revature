@@ -21,6 +21,14 @@ public class Client {
         this.age = age;
     }
 
+    public Client(int id, String firstName, String lastName, int age, List<Account> accounts) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.accounts = accounts;
+    }
+
     public int getId() {
         return id;
     }

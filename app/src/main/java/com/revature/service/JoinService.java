@@ -2,25 +2,20 @@ package com.revature.service;
 
 import com.revature.dao.AccountDao;
 import com.revature.dao.ClientDao;
+import com.revature.dao.JoinDao;
 import com.revature.model.Client;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class JoinService {
-    private ClientDao clientDao;
-    private AccountDao accountDao;
+    private JoinDao joinDao;
 
     public JoinService() {
-        this.clientDao = new ClientDao();
-        this.accountDao = new AccountDao();
+        this.joinDao = new JoinDao();
     }
 
     public List<Client> getClientAccounts() throws SQLException {
-        List<Client> clients = clientDao.getAllClients();
-        for (Client c: clients) {
-            c.setAccounts(accountDao.getAllAccountsFromClientId(c.getId()));
-        }
-        return clients;
+        return joinDao.getClientAccounts();
     }
 }
