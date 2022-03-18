@@ -1,7 +1,7 @@
 <button mat-raised-button (click)="newClient()">Add New Client</button>
 <div *ngIf="!loading">
   <dl>
-    <ng-container *ngFor="let client of clients; index as i">
+    <ng-container *ngFor="let client of clients; index as i; trackBy: clientById">
       <dt>
         Client: {{client.id}} {{client.firstName}} {{client.lastName}} Age: {{client.age}}
         <button mat-raised-button (click)="updateClient(client)">Update Client</button>

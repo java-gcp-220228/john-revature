@@ -45,7 +45,7 @@ export class AdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       this.api.postClient(res.firstName, res.lastName, res.age).subscribe(
         (c) => {
-          this.clients.push({id: c.id, firstName: c.firstName, lastName: c.lastName, age: c.age});
+          this.clients.push({id: c.id, firstName: c.firstName, lastName: c.lastName, age: c.age, accounts: []});
         }
       );
     });
@@ -118,6 +118,10 @@ export class AdminComponent implements OnInit {
       }
     });
 
+  }
+
+  clientById(index: number, client: Client): number {
+    return client.id;
   }
 
   loadClientAccounts(): void {
