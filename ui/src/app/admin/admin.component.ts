@@ -30,7 +30,6 @@ export class AdminComponent implements OnInit {
 
   clients!: Client[];
   loading: boolean = true;
-  items = Array(1000).fill(0).map(() => Math.round(Math.random() * 100));
 
   constructor(private api: ApiService,
     public dialog: MatDialog,
