@@ -1,0 +1,21 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args: [ '-c',
+  'docker build --build-arg=url=$$POSTGRES_URL --build-arg=user=$$POSTGRES_USER --build-arg=pass=$$POSTGRES_PASSWORD -t gcr.io/hopeful-altar-343717/revature-project-0/project-0 .' ]
+  secretEnv: ['POSTGRES_URL', 'POSTGRES_USER', 'POSTGRES_PASSWORD']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/hopeful-altar-343717/revature-project-0/project-0']
+
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   args: ['app', 'deploy', '--image-url', 'gcr.io/hopeful-altar-343717/revature-project-0/project-0']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/hopeful-altar-343717/secrets/POSTGRES_URL/versions/1
+    env: 'POSTGRES_URL'
+  - versionName: projects/hopeful-altar-343717/secrets/POSTGRES_USER/versions/1
+    env: 'POSTGRES_USER'
+  - versionName: projects/hopeful-altar-343717/secrets/POSTGRES_PASSWORD/versions/1
+    env: 'POSTGRES_PASSWORD'

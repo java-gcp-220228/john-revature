@@ -39,7 +39,7 @@ public class Server {
                 new JoinController(),
                 new ExceptionController());
 
-        app.start(7070);
+        app.start();
     }
 
     public static void map(Javalin app, Controller... controllers) {
